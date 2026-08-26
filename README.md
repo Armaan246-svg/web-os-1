@@ -47,4 +47,4 @@ Live Demo: [Insert Your Deployed Link Here]
 
 1. Clone this repository:
    ```bash
-   git clone [https://github.com/YOUR_USERNAME/web-os-1.git](https://github.com/YOUR_USERNAME/web-os-1.git)
+   git clone [https://github.com/Armaan246-svg/web-os-1.git](https://github.com/Armaan246-svg/web-os-1.git)
