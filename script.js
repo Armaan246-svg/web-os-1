@@ -1,19 +1,22 @@
 let activeWindow = null;
 let zIndexCounter = 10;
 function dragMouseDown(e, windowId) {
+    if (e.target.classList.contains('close-btn')) return;
     e = e || window.event;
     e.preventDefault();
     activeWindow = document.getElementById(windowId);
+    if (!activeWindow) return;
     zIndexCounter++;
     activeWindow.style.zIndex = zIndexCounter;
     let posX = e.clientX;
     let posY = e.clientY;
-    document.onmousemove = function(e) {
-        e.preventDefault();
-        let dx = posX - e.clientX;
-        let dy = posY - e.clientY;
-        posX = e.clientX;
-        posY = e.clientY;
+    document.onmousemove = function(evt) {
+        evt = evt || window.event;
+        evt.preventDefault();
+        let dx = posX - evt.clientX;
+        let dy = posY - evt.clientY;
+        posX = evt.clientX;
+        posY = evt.clientY;  
         activeWindow.style.top = (activeWindow.offsetTop - dy) + "px";
         activeWindow.style.left = (activeWindow.offsetLeft - dx) + "px";
     };
@@ -24,41 +27,63 @@ function dragMouseDown(e, windowId) {
 }
 function openWindow(id) {
     const win = document.getElementById(id);
-    win.style.display = "block";
-    zIndexCounter++;
-    win.style.zIndex = zIndexCounter;
+    if (win) {
+        win.style.display = "block";
+        zIndexCounter++;
+        win.style.zIndex = zIndexCounter;
+    }
 }
 function closeWindow(id) {
-    document.getElementById(id).style.display = "none";
+    const win = document.getElementById(id);
+    if (win) {
+        win.style.display = "none";
+    }
 }
-function updateClock() {
-    const now = new Date();
-    document.getElementById('taskbar-time').textContent = now.toLocaleTimeString();
-}
-setInterval(updateClock, 1000);
-updateClock();
 let calcVal = "0";
 function calcInput(num) {
-    if (calcVal === "0") calcVal = num;
-    else calcVal += num;
-    document.getElementById('calc-display').value = calcVal;
+    if (calcVal === "0" || calcVal === "Error") {
+        calcVal = String(num);
+    } else {
+        calcVal += String(num);
+    }
+    updateCalcDisplay();
 }
 function calcOp(op) {
-    calcVal += " " + op + " ";
-    document.getElementById('calc-display').value = calcVal;
+    if (calcVal !== "Error") {
+        calcVal = calcVal.trim() + " " + op + " ";
+        updateCalcDisplay();
+    }
 }
 function calcClear() {
     calcVal = "0";
-    document.getElementById('calc-display').value = calcVal;
+    updateCalcDisplay();
 }
 function calcEval() {
     try {
-        calcVal = eval(calcVal).toString();
-    } catch {
+        // Strip out trailing '=' if passed in string
+        let cleanExpr = calcVal.replace(/=/g, '').trim();
+        let result = Function('"use strict"; return (' + cleanExpr + ')')();
+        calcVal = String(result);
+    } catch (err) {
         calcVal = "Error";
     }
-    document.getElementById('calc-display').value = calcVal;
+    updateCalcDisplay();
 }
+function updateCalcDisplay() {
+    const display = document.getElementById('calc-display');
+    if (display) {
+        display.value = calcVal;
+    }
+}
+function updateClock() {
+    const clockEl = document.getElementById('taskbar-time');
+    if (clockEl) {
+        const now = new Date();
+        clockEl.textContent = now.toLocaleTimeString();
+    }
+}
+setInterval(updateClock, 1000);
+updateClock();
 function setTheme(theme) {
     if (theme === 'sunset') {
         document.body.style.background = "linear-gradient(135deg, #4c0519, #881337, #1e1b4b)";
@@ -68,8 +93,12 @@ function setTheme(theme) {
         document.body.style.background = "linear-gradient(135deg, #0f172a, #1e293b, #0f172a)";
     }
 }
-const noteInput = document.getElementById('note-input');
-noteInput.value = localStorage.getItem('webos_notes') || '';
-noteInput.addEventListener('input', () => {
-    localStorage.setItem('webos_notes', noteInput.value);
+document.addEventListener('DOMContentLoaded', () => {
+    const noteInput = document.getElementById('note-input');
+    if (noteInput) {
+        noteInput.value = localStorage.getItem('webos_notes') || '';
+        noteInput.addEventListener('input', () => {
+            localStorage.setItem('webos_notes', noteInput.value);
+        });
+    }
 });
