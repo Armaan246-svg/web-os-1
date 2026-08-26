@@ -1,9 +1,8 @@
 let activeWindow = null;
 let zIndexCounter = 10;
 function dragMouseDown(e, windowId) {
-    if (e.target.classList.contains('close-btn')) return;
     e = e || window.event;
-    e.preventDefault();
+    if (e.target.tagName === 'BUTTON') return;
     activeWindow = document.getElementById(windowId);
     if (!activeWindow) return;
     zIndexCounter++;
@@ -12,7 +11,6 @@ function dragMouseDown(e, windowId) {
     let posY = e.clientY;
     document.onmousemove = function(evt) {
         evt = evt || window.event;
-        evt.preventDefault();
         let dx = posX - evt.clientX;
         let dy = posY - evt.clientY;
         posX = evt.clientX;
@@ -39,66 +37,28 @@ function closeWindow(id) {
         win.style.display = "none";
     }
 }
-let calcVal = "0";
-function calcInput(num) {
-    if (calcVal === "0" || calcVal === "Error") {
-        calcVal = String(num);
-    } else {
-        calcVal += String(num);
-    }
-    updateCalcDisplay();
+let currentExpression = "";
+function calcInput(val) {
+    if (currentExpression === "Error") currentExpression = "";
+    currentExpression += val;
+    document.getElementById('calc-display').value = currentExpression;
 }
 function calcOp(op) {
-    if (calcVal !== "Error") {
-        calcVal = calcVal.trim() + " " + op + " ";
-        updateCalcDisplay();
-    }
+    if (currentExpression === "Error") currentExpression = "";
+    currentExpression += op;
+    document.getElementById('calc-display').value = currentExpression;
 }
 function calcClear() {
-    calcVal = "0";
-    updateCalcDisplay();
+    currentExpression = "";
+    document.getElementById('calc-display').value = "0";
 }
 function calcEval() {
     try {
-        // Strip out trailing '=' if passed in string
-        let cleanExpr = calcVal.replace(/=/g, '').trim();
-        let result = Function('"use strict"; return (' + cleanExpr + ')')();
-        calcVal = String(result);
-    } catch (err) {
-        calcVal = "Error";
-    }
-    updateCalcDisplay();
-}
-function updateCalcDisplay() {
-    const display = document.getElementById('calc-display');
-    if (display) {
-        display.value = calcVal;
+        let result = Function('"use strict"; return (' + currentExpression + ')')();
+        currentExpression = String(result);
+        document.getElementById('calc-display').value = currentExpression;
+    } catch (e) {
+        document.getElementById('calc-display').value = "Error";
+        currentExpression = "Error";
     }
 }
-function updateClock() {
-    const clockEl = document.getElementById('taskbar-time');
-    if (clockEl) {
-        const now = new Date();
-        clockEl.textContent = now.toLocaleTimeString();
-    }
-}
-setInterval(updateClock, 1000);
-updateClock();
-function setTheme(theme) {
-    if (theme === 'sunset') {
-        document.body.style.background = "linear-gradient(135deg, #4c0519, #881337, #1e1b4b)";
-    } else if (theme === 'emerald') {
-        document.body.style.background = "linear-gradient(135deg, #064e3b, #022c22, #0f172a)";
-    } else {
-        document.body.style.background = "linear-gradient(135deg, #0f172a, #1e293b, #0f172a)";
-    }
-}
-document.addEventListener('DOMContentLoaded', () => {
-    const noteInput = document.getElementById('note-input');
-    if (noteInput) {
-        noteInput.value = localStorage.getItem('webos_notes') || '';
-        noteInput.addEventListener('input', () => {
-            localStorage.setItem('webos_notes', noteInput.value);
-        });
-    }
-});
