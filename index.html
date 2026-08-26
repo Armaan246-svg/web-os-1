@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherOS - Web Desktop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="desktop" id="desktop">
+        <!--Desktop Shortcuts-->
+        <div class="shortcut" onclick="openWindow('notes-win')">
+            <div class="icon">pen</div>
+            <span>Notepad</span>
+        </div>
+        <div class="shortcut" onclick="openWindow('calculator-win')">
+            <div class="icon">1234</div>
+            <span>Calculator</span>
+        </div>
+        <div class="shortcut" onclick="openWindow('settings-win')">
+            <div class="icon">Blah</div>
+            <span>Settings</span>
+        </div>
+        <!--Window 1: Notepad-->
+        <div class="window" id="notes-win" style="top: 80px;left:120px;">
+            <div class="window-header" onmousedown="dragMouseDown(event,'notes-win')">
+                <span class="title">Notes.txt</span>
+                <button class="close-btn" onclick="closeWindows('notes-win')">x</button>
+            </div>
+            <div class="window-body">
+                <textarea id="note-input" placeholder="Type your notes here...(Saves automatically)"></textarea>
+            </div>
+        </div>
+    </div>
+    <!--Window 2: Calculator-->
+    <div class="window" id="calculator-win" style="top: 140px; left: 450px;">
+        <div class="window-header" onmousedown="dragMouseDown(event,'calculator-win')">
+            <span class="title">Calculator</span>
+            <button class="close-btn" onclick="closeWindow('calculator-win')">x</button>
+        </div>
+        <div class="window-body calc-body">
+            <input type="text" id="calc-display" readonly value="0">
+            <div class="calc-grid">
+                <button onclick="calcInput('7')">7</button>
+                <button onclick="calcInput('8')">8</button>
+                <button onclick="calcInput('9')">9</button>
+                <button onclick="calcInput('/')">/</button>
+                <button onclick="calcInput('4')">4</button>
+                <button onclick="calcInput('5')">5</button>
+                <button onclick="calcInput('6')">6</button>
+                <button onclick="calcInput('')"></button>
+                <button onclick="calcInput('1')">1</button>
+                <button onclick="calcInput('2')">2</button>
+                <button onclick="calcInput('3')">3</button>
+                <button onclick="calcInput('-')">-</button>
+                <button onclick="calcInput('C')">C</button>
+                <button onclick="calcInput('0')">0</button>
+                <button onclick="calcInput('=')">=</button>
+                <button onclick="calcInput('+')">+</button>
+            </div>
+        </div>
+    </div>
+    <!--Window 3: Settings (Wallpaper Switcher - Custom Feature)-->
+    <div class="window" id="settings-win" style="top: 260px; left: 200px;">
+        <div class="window-header" onmousedown="dragMouseDown(event,'settings-win')">
+            <span class="title">Display Settings</span>
+            <button class="close-btn" onclick="closeWindow('settings-win')">x</button>
+        </div>
+        <div class="window-body settings-body">
+            <p>Choose Theme Gradient</p>
+            <div class="theme-buttons">
+                <button onclick="setTheme('midnight')">Midnight</button>
+                <button onclick="setTheme('sunset')">Sunset</button>
+                <button onclick="setTheme('emerald')">Emerald</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--Taskbar-->
+    <div class="taskbar">
+        <button class="start-btn">Aether</button>
+        <div class="taskbar-clock" id="taskbar-time">00:00:00AM</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
