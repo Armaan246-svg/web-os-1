@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AetherOS - WEB OS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <div id="desktop-area">
+    
+    <!-- Icons -->
+    <div class="desk-icon" onclick="showApp('app-scratchpad')">
+      <div class="img">📝</div>
+      <p>Notepad</p>
+    </div>
+
+    <div class="desk-icon" onclick="showApp('app-calc')">
+      <div class="img">🔢</div>
+      <p>Calculator</p>
+    </div>
+
+    <div class="desk-icon" onclick="showApp('app-bg')">
+      <div class="img">⚙️</div>
+      <p>Settings</p>
+    </div>
+
+    <!-- App 1: Notepad -->
+    <div class="win" id="app-notepad" style="top: 50px; left: 80px;">
+      <div class="win-bar" onmousedown="grabWindow(event, 'app-notepad')">
+        <span class="lbl">quick_notes.txt</span>
+        <span class="x-btn" onclick="event.stopPropagation(); hideApp('app-notepad')">[x]</span>
+      </div>
+      <div class="win-content">
+        <textarea id="my-notes" placeholder="drop thoughts here..."></textarea>
+      </div>
+    </div>
+
+    <!-- App 2: calculator -->
+    <div class="win" id="app-calc" style="top: 100px; left: 380px;">
+      <div class="win-bar" onmousedown="grabWindow(event, 'app-calc')">
+        <span class="lbl">Calculator</span>
+        <span class="x-btn" onclick="event.stopPropagation(); hideApp('app-calc')">[x]</span>
+      </div>
+      <div class="win-content">
+        <input type="text" id="screen" value="0" readonly>
+        <div class="keypad">
+          <button onclick="pressNum('7')">7</button>
+          <button onclick="pressNum('8')">8</button>
+          <button onclick="pressNum('9')">9</button>
+          <button class="op" onclick="pressOp('/')">/</button>
+          
+          <button onclick="pressNum('4')">4</button>
+          <button onclick="pressNum('5')">5</button>
+          <button onclick="pressNum('6')">6</button>
+          <button class="op" onclick="pressOp('*')">*</button>
+
+          <button onclick="pressNum('1')">1</button>
+          <button onclick="pressNum('2')">2</button>
+          <button onclick="pressNum('3')">3</button>
+          <button class="op" onclick="pressOp('-')">-</button>
+
+          <button class="clr" onclick="resetCalc()">C</button>
+          <button onclick="pressNum('0')">0</button>
+          <button class="eq" onclick="runCalc()">=</button>
+          <button class="op" onclick="pressOp('+')">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- App 3: Settings -->
+    <div class="win" id="app-bg" style="top: 220px; left: 200px;">
+      <div class="win-bar" onmousedown="grabWindow(event, 'app-bg')">
+        <span class="lbl">Backgrounds</span>
+        <span class="x-btn" onclick="event.stopPropagation(); hideApp('app-bg')">[x]</span>
+      </div>
+      <div class="win-content">
+        <p style="margin-bottom: 8px; font-size: 13px;">Pick a vibe:</p>
+        <div class="bg-picks">
+          <button onclick="swapTheme('dark')">Dark Blue</button>
+          <button onclick="swapTheme('neon')">Purple Cyber</button>
+          <button onclick="swapTheme('retro')">Classic Grey</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Panel -->
+  <div id="bottom-bar">
+    <div id="start-node">AetherOS</div>
+    <div id="clock-node">00:00</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
