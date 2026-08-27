@@ -1,33 +1,68 @@
-# WebOS 1 - Personal Desktop Environment
+# AetherOS
 
-Welcome to my WebOS project! This is a simple, lightweight desktop environment built from scratch using HTML, CSS, and plain JavaScript. It runs completely inside any web browser and mimics a real operating system layout with windows, shortcuts, and a functional taskbar.
+A small web-based desktop interface I made using HTML, CSS, and JavaScript.
 
----
+I wanted to see if I could make a browser page feel a little more like an actual operating system instead of just making another normal website.
 
-## 🌟 Features
+## What it has
 
-* **Draggable Windows**: Click and hold the header bar of any window to drag it around your screen freely.
-* **Persistent Notepad**: A built-in scratchpad where you can write down notes. Anything you type is automatically saved to your browser's local storage, so your notes won't disappear when you refresh or close the tab.
-* **Working Calculator**: A handy calculator app for basic arithmetic operations (addition, subtraction, multiplication, and division).
-* **Live Taskbar Clock**: Shows the exact current time at the bottom right corner of the screen, updating live every second.
-* **Theme Switcher (Custom Feature)**: Found inside the Display Settings window. Lets you switch between Midnight, Sunset, and Emerald desktop background gradients on the fly.
-* **Open & Close Apps**: Desktop icons launch applications, and pressing the `×` button closes them cleanly without breaking screen interaction.
+- Desktop-style interface
+- Notepad
+- Calculator
+- Settings window
+- Draggable windows
+- Clock
+- Different background themes
+- Notepad saves text using localStorage
 
----
+## How it works
 
-## 🛠️ Built With
+The project is split into three main files:
 
-* **HTML5**: Defines the structure for desktop icons, application windows, and taskbar elements.
-* **CSS3**: Handles dark mode styling, window layering, glassmorphism UI, and grid layouts.
-* **JavaScript (Vanilla ES6)**: Powers window dragging mechanics, mouse event tracking, local storage savings, and math calculation logic without any external libraries.
+- `index.html` - the structure of the desktop and applications
+- `style.css` - the layout and appearance
+- `script.js` - window movement, calculator, clock, themes, and notepad saving
 
----
+There are no frameworks or libraries being used. It is just HTML, CSS, and vanilla JavaScript.
 
-## 📁 Project Structure
+## Notepad
 
-```text
-web-os-1/
-├── index.html    # Main page containing desktop layout and windows
-├── style.css     # Glassmorphism styling, layout rules, and background themes
-├── script.js    # Drag-and-drop logic, app controls, clock, and calculator code
-└── README.md     # Documentation and devlogs
+The notepad uses `localStorage`, so the text stays saved when the page is refreshed.
+
+I also fixed an issue where the Notepad window would close but could not be opened again. The desktop icon was pointing to the wrong window ID.
+
+## Things I learned
+
+This project helped me understand how HTML elements can be controlled with JavaScript.
+
+I also learned more about:
+
+- DOM elements
+- JavaScript event handlers
+- CSS positioning
+- Moving elements around the page
+- localStorage
+- Keeping multiple windows organized
+
+## What I want to improve
+
+There are still things I want to add later:
+
+- More applications
+- Better window resizing
+- A proper taskbar
+- More themes
+- Better mobile support
+- More desktop customization
+
+## Running it
+
+You don't need to install anything.
+
+Download or clone the repository and open `index.html` in a browser.
+
+## Built with
+
+HTML  
+CSS  
+JavaScript
